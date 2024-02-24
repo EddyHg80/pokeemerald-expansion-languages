@@ -544,17 +544,21 @@ static void VBlankCB_MainMenu(void)
     TransferPlttBuffer();
 }
 
+void CB2_ReinitMainMenu(void)
+{
+    InitMainMenu(TRUE);
+}
+
 void CB2_InitMainMenu(void)
 {
     if(gSaveFileStatus==SAVE_STATUS_OK)
         SetMainCallback2(CB2_ContinueSavedGame);
     else
-        InitMainMenu(FALSE);
-}
-
-void CB2_ReinitMainMenu(void)
-{
-    InitMainMenu(TRUE);
+    {
+        gMain.savedCallback = CB2_ReinitMainMenu;
+        SetMainCallback2(CB2_InitOptionMenu);
+    }
+        //InitMainMenu(FALSE);
 }
 
 static u32 InitMainMenu(bool8 returningFromOptionsMenu)
